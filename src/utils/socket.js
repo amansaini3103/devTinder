@@ -13,7 +13,7 @@ const getSecretRoomId = (userId, targetUserId) => {
 const initializeSocket = (server) => {
   const io = socket(server, {
     cors: {
-      origin: "https://dev-tinder-frontend-sand.vercel.app/",
+      origin: "https://dev-tinder-frontend-sand.vercel.app",
     },
   });
 

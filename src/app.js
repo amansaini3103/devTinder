@@ -1,3 +1,6 @@
+const dns = require("dns")
+dns.setServers(["8.8.8.8","1.1.1.1"]);
+
 const express = require("express");
 const connectDB = require("./config/database");
 const app = express();
@@ -11,7 +14,7 @@ require("./utils/cronjob");
 
 app.use(
   cors({
-    origin: "http://localhost:5174",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -23,18 +26,20 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 const paymentRouter = require("./routes/payment");
-// const initializeSocket = require("./utils/socket");
-// const chatRouter = require("./routes/chat");
+const initializeSocket = require("./utils/socket");
+const chatRouter = require("./routes/chat");
 
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
-// app.use("/", chatRouter);
+app.use("/", chatRouter);
 
 const server = http.createServer(app);
-// initializeSocket(server);
+initializeSocket(server);
+
+const PORT = process.env.PORT || 7777;
 
 connectDB()
   .then(() => {
@@ -45,4 +50,5 @@ connectDB()
   })
   .catch((err) => {
     console.error("Database cannot be connected!!");
+    console.log(err)
   });
